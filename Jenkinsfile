@@ -12,7 +12,8 @@ pipeline {
         }
         stage("scm checkout"){
             steps {
-                git branch: 'main', url: 'https://github.com/ahmed-kabil/java-app-test.git'
+               // git branch: 'main', url: 'https://github.com/ahmed-kabil/java-app-test.git'
+               checkout scm
             }
         }
 
