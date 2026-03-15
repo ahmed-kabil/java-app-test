@@ -3,16 +3,19 @@ pipeline {
     tools {
         maven 'M3'
     }
-
+    environment {
+        PORT = "8060"
+        CONTAINER_NAME = "java_maven"
+        IMAGE_NAME = "ahmedkabil/java-maven"
+    }
     stages{
         stage("clean up"){
             steps{
-                sh "docker rm java_app --force || true" 
+                sh "docker rm ${CONTAINER_NAME} --force || true" 
             }
         }
         stage("scm checkout"){
             steps {
-               // git branch: 'main', url: 'https://github.com/ahmed-kabil/java-app-test.git'
                checkout scm
             }
         }
@@ -24,13 +27,13 @@ pipeline {
         }
         stage("build image"){
             steps{
-                sh 'docker build --build-arg PORT=8060 -t ahmedkabil/java-app .'
+                sh 'docker build --build-arg PORT=${PORT} -t ${IMAGE_NAME} .'
             }
         }
         stage("deploy"){
             steps{
-                sh 'docker container run -d --name java_app -p 8060:8060 ahmedkabil/java-app'
-                echo "Successfully deployed to http://192.168.50.134:8060"
+                sh 'docker container run -d --name ${CONTAINER_NAME} -p ${PORT}:${PORT} ${IMAGE_NAME}'
+                echo "Successfully deployed to http://${NodeIP}:${PORT}"
             }
             
         }
