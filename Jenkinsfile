@@ -33,7 +33,7 @@ pipeline {
         stage("deploy"){
             steps{
                 sh 'docker container run -d --name ${CONTAINER_NAME} -p ${PORT}:${PORT} ${IMAGE_NAME}'
-                echo "Successfully deployed to http://${NodeIP}:${PORT}"
+                echo "Successfully deployed to http://${Node_IP}:${PORT}"
             }
             
         }
